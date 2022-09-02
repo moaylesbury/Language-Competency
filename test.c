@@ -17,6 +17,13 @@ struct node_t* init_node(){
 struct node_t* add_node(struct node_t** head, int val){
 	// adds new node to the front of the linked list
 
+	// if head is empty then its fields will be NULL
+	if ((*head)->v == NULL && (*head)->next == NULL){
+		(*head)->v = val;
+		return (*head);
+	}
+
+
  	struct node_t* new_node = init_node();
 
  	new_node->v = val;
@@ -32,6 +39,14 @@ struct node_t* add_node(struct node_t** head, int val){
 struct node_t* delete_node(struct node_t* curr_node, struct node_t* node_to_delete) {
 	// takes a a node to delete, and the node before that (curr_node)
 	// returns curr_node pointing to the node after the deleted node
+
+	// if curr_node is null we have an element at position 0 in the linked list
+	if (curr_node == NULL){
+		struct node_t* new_head = init_node();
+		new_head = node_to_delete->next;
+		free(node_to_delete);
+		return new_head;
+	}
 
 	curr_node->next = node_to_delete->next;
 	free(node_to_delete);
@@ -66,6 +81,9 @@ struct node_t* even_nodes(struct node_t** head, int change) {
 	struct node_t* peek = init_node();
 	struct node_t* even_nodes_ = init_node();
 
+	even_nodes_->v = NULL;
+	even_nodes_->next = NULL;
+
 
 	curr_node = (*head);
 	peek = (*head);
@@ -78,17 +96,15 @@ struct node_t* even_nodes(struct node_t** head, int change) {
 
 
 
-		peek = curr_node->next;
+
 
 		// checks if first item is even
 		if (firstItem==0 && (curr_node->v % 2 == 0)){
 
-			even_nodes_->v = curr_node->v;
-			even_nodes_->next = NULL;
-
+			even_nodes_ = add_node(&even_nodes_, curr_node->v);
+			peek = delete_node(NULL, curr_node);
 			(*head) = peek;
-			curr_node = peek;
-			peek=peek->next;
+
 
 			firstItem = 1;
 		}
@@ -106,6 +122,7 @@ struct node_t* even_nodes(struct node_t** head, int change) {
 
 
 		curr_node = peek;
+		peek = peek->next;
 	}
 
 	printf("loop ended\n");
@@ -128,39 +145,36 @@ int main(void) {
 	printf("!!!Hello World!!!\n");
 
 
+//
+//	struct node_t* head = init_node();
+//	struct node_t* a = init_node();
+//	struct node_t* b = init_node();
 
-	struct node_t* head = init_node();
-	struct node_t* a = init_node();
-	struct node_t* b = init_node();
-
-	head->v = 10;
-	head->next = a;
-
-	a->v = 1;
-	a->next = b;
-
-	b->v = 4;
-	b->next = NULL;
-
-
+//	head->v = 10;
+//	head->next = NULL;
+//
+//	head = add_node(&head, 4);
+//	head = add_node(&head, 1);
+//
+//
+//
+//
+////	print(head);
+//
+//
+//
+//
+//	struct node_t* tester = init_node();
+//
+//
+//	tester = even_nodes(&head, 1);
+//
+//	print(tester);
+//
 //	print(head);
-
-
-
-
-	struct node_t* tester = init_node();
-
-
-	tester = even_nodes(&head, 1);
-
-	print(tester);
-
-	print(head);
-
-	printf("done");
-
-
-
+//
+//	printf("done");
+//
 
 
 
